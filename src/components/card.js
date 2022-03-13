@@ -1,3 +1,4 @@
+import axios from "axios";
 // TASK 5
   // ---------------------
   // Implement this function, which should return the markup you see below.
@@ -25,13 +26,26 @@ const Card = (article) => {
   const img = document.createElement('img');
   const authorName = document.createElement('span');
 
+  headline.textContent = article.headline;
+  img.src = article.authorPhoto;
+  author.textContent = article.author;
+  authorName.textContent = article.authorName;
+
   card.classList.add('card');
   headline.classList.add('headline');
   author.classList.add('author');
+  imgContainer.classList.add('img-container');
   authorName.classList.add('authorName');
   
+  card.appendChild(headline);
+  card.appendChild(author);
+  author.appendChild(imgContainer);
+  imgContainer.appendChild(img)
+  author.appendChild(authorName);
 
-  
+
+
+  return card;
 }
 
  // TASK 6
@@ -44,7 +58,30 @@ const Card = (article) => {
   //
 
 const cardAppender = (selector) => {
- 
+  axios.get("http://localhost:5000/api/articles")
+  .then(res => { 
+    const cardList = document.querySelector(selector);
+    const articles = res.data.articles;
+    console.log(articles);
+    const keys = Object.keys(articles);
+    keys.forEach(key => {
+      // key = Array.from(key);
+      articles[key].forEach(element => {
+        console.log(element)
+      const card = Card(element)
+        cardList.appendChild(card); 
+      })
+    })
+   
+    return cardList;
+  })
+  .catch(err => {
+    console.error(err);
+  })
+  .finally(() => {
+    console.log("IT'S WORKING, IT'S WORKING!");
+  })
+  
 }
 
 export { Card, cardAppender }
