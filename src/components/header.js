@@ -37,7 +37,6 @@
 
 
     
-console.log(header)
     return header;
 }
 
@@ -51,8 +50,7 @@ console.log(header)
 
 const headerAppender = (selector) => {
   const header = document.querySelector(selector);
-  const txt = "Lambda School";
-  const testvar = Header(txt, "January 6th, 2021", "temp")
+  const testvar = Header("Lambda School", "January 6th, 2021", "26º")
   header.appendChild(testvar);
   return header;
 }

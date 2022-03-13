@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // TASK 3
   // ---------------------
   // Implement this function which takes an array of strings ("topics") as its only argument.
@@ -14,18 +16,17 @@
   //
 
 const Tabs = (topics) => {
-  const tab1 = document.createElement('div');
-  const tab2 = document.createElement('div');
-  const tab3 = document.createElement('div');
-  const tab4 = document.createElement('div');
-  const tab5 = document.createElement('div');
 
+  const topic = document.createElement('div');
+  topic.classList.add("topics");
+  for(let i = 0; i < topics.length; i++ ){
+    const tab2 = document.createElement('div');
+    tab2.classList.add("tab");
+    tab2.textContent = topics[i];  
+    topic.appendChild(tab2);
+  }
   
-  tab1.appendChild(tab2);
-  tab2.appendChild(tab3);
-  tab3.appendChild(tab4);
-  tab4.appendChild(tab5);
-  
+  return topic;
 }
 
  // TASK 4
@@ -36,23 +37,23 @@ const Tabs = (topics) => {
   // Append the tabs to the element in the DOM that matches the selector passed to the function.
   //
 
-  
+
 const tabsAppender = (selector) => {
-  // const entryPoint = document.querySelector(selector);
-  // axios.get("http://localhost:5000/api/topics")
-  // .then(res => {
-  //   console.log(res.data.message);
-  //   res.data.message.forEach(image => {
-  //     const tabs = tabsAppender({ topics });
-  //     entryPoint.appendChild(tabs);
-  //   })
-  // })
-  // .catch(err => {
-  //   console.error(err);
-  // })
-  // .finally(() => {
-  //   console.log("IT'S WORKING, IT'S WORKING!");
-  // })
+axios.get("http://localhost:5000/api/topics")
+  .then(res => { 
+   const tabs = document.querySelector(selector);
+   const topics = Tabs(res.data.topics);
+   tabs.appendChild(topics);
+   return tabs;
+  })
+  .catch(err => {
+    console.error(err);
+  })
+  .finally(() => {
+    console.log("IT'S WORKING, IT'S WORKING!");
+  })
+  
 }
  
 export { Tabs, tabsAppender }
+
