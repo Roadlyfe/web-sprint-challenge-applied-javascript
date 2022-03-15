@@ -17,7 +17,14 @@ import axios from "axios";
   //   </div>
   // </div>
   //
-
+// TASK 6
+  // ---------------------
+  // Implement this function that takes a css selector as its only argument.
+  // It should obtain articles from this endpoint: `http://localhost:5000/api/articles` (test it with console.log!!).
+  // However, the articles do not come organized in a single, neat array. Inspect the response closely!
+  // Create a card from each and every article object in the response, using the Card component.
+  // Append each card to the element in the DOM that matches the selector passed to the function.
+  
 const Card = (article) => {
   const card = document.createElement('div');
   const headline = document.createElement('div');
@@ -36,52 +43,36 @@ const Card = (article) => {
   author.classList.add('author');
   imgContainer.classList.add('img-container');
   authorName.classList.add('authorName');
-  
+
   card.appendChild(headline);
   card.appendChild(author);
   author.appendChild(imgContainer);
-  imgContainer.appendChild(img)
+  imgContainer.appendChild(img);
   author.appendChild(authorName);
-
-
 
   return card;
 }
 
- // TASK 6
-  // ---------------------
-  // Implement this function that takes a css selector as its only argument.
-  // It should obtain articles from this endpoint: `http://localhost:5000/api/articles` (test it with console.log!!).
-  // However, the articles do not come organized in a single, neat array. Inspect the response closely!
-  // Create a card from each and every article object in the response, using the Card component.
-  // Append each card to the element in the DOM that matches the selector passed to the function.
-  //
-
 const cardAppender = (selector) => {
   axios.get("http://localhost:5000/api/articles")
-  .then(res => { 
+  .then(res => {
     const cardList = document.querySelector(selector);
     const articles = res.data.articles;
-    console.log(articles);
     const keys = Object.keys(articles);
     keys.forEach(key => {
-      // key = Array.from(key);
       articles[key].forEach(element => {
-        console.log(element)
-      const card = Card(element)
-        cardList.appendChild(card); 
+        const card = Card(element);
+        cardList.appendChild(card);
       })
-    })
-   
+     })
     return cardList;
   })
   .catch(err => {
-    console.error(err);
+    console.error("DANGER WILL ROBINSON(this is an error message)");
   })
   .finally(() => {
-    console.log("IT'S WORKING, IT'S WORKING!");
+    console.log("You did it!");
   })
-  
 }
 
 export { Card, cardAppender }
